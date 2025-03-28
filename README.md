@@ -1,148 +1,138 @@
-# README
+# An Overview of SD IMOP
+Last Updated: 3/27/25
 
-> This is a project to support AP Computer Science Principles (CSP) as well as a UC articulated Data Structures course. It was crafted iteratively starting in 2020 to the present time.  The primary purposes are ...
+---
 
-- Used as starter code for student projects for `AP CSP 1 and 2` and `Data Structures 1` curriculum.
-- Used to teach key principles in learning the Python Flask programming environment.
-- Used as a backend server to service API's in a frontend-to-backend pipeline. Review the `api` folder in the project for endpoints.
-- Contains a minimal frontend, mostly to support Administrative functionality using the `templates` folder and `Jinja2` to define UIs.
-- Contains SQL database code in the `model` folder to introduce concepts of persistent data and storage.  Perisistence folder is `instance/volumes` for generated SQLite3 db.
-- Contains capabilities for deployment and has been used with AWS, Ubuntu, Docker, docker-compose, and Nginx to `deploy a WSGI server`.
-- Contains APIs to support `user authentication and cookies`, a great deal of which was contributed by Aiden Wu a former student in CSP.  
+# SD IMOP: San Diego Infrastructure Management Optimization Platform
 
-## Flask Portfolio Starter
+SD IMOP is a data-driven platform designed to optimize infrastructure maintenance across San Diego. By harnessing historical repair records, citizen-reported issues, and facility condition assessments, SD IMOP leverages machine learning to predict when and where maintenance is needed. The goal is to enable proactive repair scheduling, reduce overall costs, and enhance public safety.
 
-Use this project to create a Flask Server.
+---
 
-- GitHub link: [flask_2025](https://github.com/nighthawkcoders/flask_2025)
-- The runtime link is published under the About on the GitHub link.
-- `Create a template from this repository` if you plan on making GitHub changes.
+## Pilot City Checkpoint
 
-## The conventional way to get started
+### Project Introduction
+SD IMOP addresses the challenge of aging urban infrastructure by forecasting maintenance needs before critical failures occur. The platform analyzes historical data—such as street repair projects, pothole reports, and Facility Condition Index (FCI) ratings—to generate predictive insights. These predictions support city planners in prioritizing repairs and allocating resources more effectively.
 
-> Quick steps that can be used with MacOS, WSL Ubuntu, or Ubuntu; this uses Python 3.9 or later as a prerequisite.
+**Key Objectives:**
+- Transition from reactive repairs to proactive maintenance.
+- Improve asset lifespan and public safety.
+- Optimize resource allocation and reduce emergency repair costs.
+- Provide actionable, data-driven insights to decision makers.
 
-- Open a Terminal, clone a project and `cd` into the project directory.  Use a `different link` and name for `name` for clone to match your repo.
+---
 
-```bash
-mkdir -p ~/nighthawk; cd ~/nighthawk
+### Scope / Ideate
 
-git clone https://github.com/nighthawkcoders/flask_2025.git
+#### Data Sources
+- **Streets Repair Projects:** Historical records detailing repair start dates, project status, and geographic locations.
+- **Pothole Repair Requests:** Citizen reports on potholes and road damages, including timestamps and locations.
+- **Facility Condition Index (FCI):** Condition ratings and repair cost estimates for city-owned assets.
+- **Supplementary Data:** Traffic volumes, weather data, and urban zoning information to contextualize maintenance demands.
 
-cd flask_2025
-```
+#### Project Focus
+- **Prediction:** Forecast the urgency of maintenance needs for various infrastructure elements.
+- **Prioritization:** Generate a ranked list of assets based on predicted risk and repair urgency.
+- **Visualization:** Create interactive, map-based dashboards that display current asset conditions and forecasted maintenance schedules.
 
-- Install python dependencies for Flask, etc.
+#### Key Features
+- **Predictive Modeling:** Utilize time-series forecasting and regression models to predict maintenance needs.
+- **Spatial Analysis:** Integrate geospatial data to identify clusters of high-risk infrastructure.
+- **Resource Allocation Recommendations:** Provide insights on how to best allocate maintenance crews and budgeting for repairs.
+- **User Interaction:** Allow city planners and maintenance teams to interact with the data, drill down into specific regions, and update records based on on-ground feedback.
 
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+---
 
-### Open project in VSCode
+### [Research (ML Data Set)](https://github.com/adik1025/aibe_frontend/issues/10)
+#### Data Collection & Preprocessing
+- **Aggregation:** Combine datasets from the City of San Diego Open Data Portal covering repair projects, pothole requests, and FCI ratings.
+- **Cleaning:** Standardize timestamps, handle missing values, and ensure consistency across datasets.
+- **Geocoding:** Convert addresses and location descriptions to latitude and longitude coordinates for spatial analysis.
 
-- Prepare VSCode and run
-  - From Terminal run VSCode
+#### Feature Engineering
+- **Temporal Features:**  
+  - Time since last repair  
+  - Day of week, month, and seasonality indicators  
+  - Repair frequency over defined time windows
+- **Spatial Features:**  
+  - Proximity to high-traffic areas or environmental stressors  
+  - Clustering of repair records to identify hotspot regions
+- **Asset Characteristics:**  
+  - Age and material of infrastructure assets  
+  - Historical condition ratings from FCI datasets
+- **External Factors:**  
+  - Weather conditions (rainfall, temperature fluctuations)  
+  - Traffic volume data that may influence wear and tear
 
-  ```bash
-  code .
-  ```
+#### Modeling Approach
+- **Initial Models:**  
+  - Regression models (e.g., Linear Regression, Random Forest Regressor) to predict a continuous “maintenance urgency” score.
+  - Classification models to flag assets as “High Risk” or “Low Risk.”
+- **Evaluation Metrics:**  
+  - Mean Absolute Error (MAE) for regression forecasts  
+  - Accuracy and F1 score for classification tasks
+- **Iteration:**  
+  - Continuous refinement using cross-validation and incorporation of user feedback to improve prediction accuracy.
 
-  - Open Setting: Ctrl-Shift P or Cmd-Shift
-    - Search Python: Select Interpreter.
-    - Match interpreter to `which python` from terminal.
-    - Shourd be ./venv/bin/python
+---
 
-  - From Extensions Marketplace install `SQLite3 Editor`
-    - Open and view SQL database file `instance/volumes/user_management.db`
+### Tinker (GitHub Repo, Demo)
 
-  - Make a local `.env` file in root of project to contain your secret passwords
+#### GitHub Repository Structure
+- **SDIMOP_frontend:**  
+  - Contains the web-based user interface built using modern frameworks (e.g., React or Vue.js).  
+  - Features interactive maps (Leaflet.js or Google Maps API) that display maintenance predictions and asset statuses.
+  - Includes APIs for the models and analytics
+- **SDIMOP_ml:**  
+  - Houses all scripts and notebooks for data preprocessing, feature engineering, and machine learning model development.  
+  - Includes pipelines for training, validation, and deployment of models.
 
-  ```shell
-  # User Defaults
-  ADMIN_USER='toby'
-  ADMIN_PASSWORD='123Toby!'
-  DEFAULT_USER='hop'
-  DEFAULT_PASSWORD='123Hop!'
-  ```
+#### Demo Overview
+- **Interactive Dashboard:**  
+  - A map view highlighting infrastructure assets with color-coded markers indicating repair urgency.
+  - A sidebar table with detailed predictions, sortable by risk level, last repair date, and geographic proximity.
+- **User Input & Feedback:**  
+  - Allow users (e.g., city maintenance planners) to select specific neighborhoods or assets.
+  - Incorporate a feedback loop where on-ground updates can adjust model predictions over time.
+- **API Endpoints:**  
+  - Endpoints for retrieving current asset conditions, forecasting future repairs, and submitting user feedback.
+- **Deployment:**  
+  - The demo is containerized using Docker for easy deployment and scalability, with CI/CD pipelines set up via GitHub Actions.
 
-  - Make the database and init data.
-  
-  ```bash
-  ./scripts/db_init.py
-  ```
+---
 
-  - Explore newly created SQL database
-    - Navigate too instance/volumes
-    - View/open `user_management.db`
-    - Loook at `Users` table in viewer
+## Team Organization
 
-  - Run the Project
-    - Select/open `main.py` in VSCode
-    - Start with Play button
-      - Play button sub option contains Debug
-    - Click on loop back address in terminal to launch
-      - Output window will contain page to launch http://127.0.0.1:8087
-    - Login using your secrets
+|Team Member | Role|
+|---------|-----------------------------------|
+| Adi     | Scrum Master                      |
+| Ansh    | Assistant Scrum Master            |
+| Derek   | Scrum - Frontend Engineer         |
+| Gyutae  | Scrum - Frontend Engineer         |
+| Rayhaan | Scrum - Machine Learning Engineer |
+| Aadi    | Scrum - Machine Learning Engineer |
 
-## Idea
+---
 
-### Visual thoughts
+## Timeline
 
-> The Starter code should be fun and practical.
+- **Week 1 – Ideation & Setup:**  
+  - Define project scope, collect datasets, and set up repositories.
+- **Week 2 – Data Preprocessing & Model Prototyping:**  
+  - Clean data, perform feature engineering, and build initial models.
+- **Week 3 – Backend Development:**  
+  - Develop API endpoints and integrate ML model predictions.
+- **Week 4 – Frontend Integration:**  
+  - Create interactive dashboards and integrate mapping features.
+- **Week 5 – Testing & Refinements:**  
+  - Deploy demo, collect user feedback, and iterate on model performance and UI enhancements.
+- **Final Presentation:**  
+  - Showcase a fully integrated, working platform with live predictions and interactive visualizations.
 
-- Organize with Bootstrap menu
-- Add some color and fun through VANTA Visuals (birds, halo, solar, net)
-- Show some practical and fun links (HREFs) like Twitter, Git, Youtube
-- Build a Sample Page (Table)
-- Show the project-specific links (HREFs) per page
+---
 
-### Files and Directories in this Project
+## Conclusion
 
-The key files and directories in this project are in this online article.
+SD IMOP is engineered to revolutionize how San Diego approaches infrastructure maintenance. By predicting repair needs and optimizing resource allocation, the platform aims to enhance public safety, reduce repair costs, and extend the lifespan of critical urban assets. The comprehensive integration of historical data, machine learning, and interactive visualization ensures that SD IMOP not only addresses immediate operational challenges but also sets a scalable model for future smart city initiatives.
 
-[Flask Anatomy](https://nighthawkcoders.github.io/portfolio_2025/flask-anatomy)
-
-Or read this entire series of articles starting with the Intro, Anatomy, and more ...
-
-[Flask Intro](https://nighthawkcoders.github.io/portfolio_2025/flask-intro)
-
-### Implementation Summary
-
-#### July 2024
-
-> Updates for 2024 too 2025 school year.  Primary addition is a fully functional backend for JWT login system.
-
-- Full support for JWT cookies
-- The API's for CRUD methods
-- The model definition User Class and related tables
-- SQLite and RDS support
-- Minimal Server side UI in Jinja2
-
-#### July 2023
-
-> Updates for 2023 to 2024 school year.
-
-- Update README with File Descriptions (anatomy)
-- Add JWT and add security features using a SQLite user database
-- Add migrate.sh to support sqlite schema and data upgrade
-
-#### January 2023
-
-> This project focuses on being a Python backend server.  Intentions are to only have simple UIs an perhaps some Administrative UIs.
-
-#### September 2021
-
-> Basic UI elements were implemented showing server side Flask with Jinja 2 capabilities.
-
-- The Project entry point is main.py, this enables the Flask Web App and provides the capability to render templates (HTML files)
-- The main.py is the  Web Server Gateway Interface, essentially it contains an HTTP route and HTML file relationship.  The Python code constructs WSGI relationships for index, kangaroos, walruses, and hawkers.
-- The project structure contains many directories and files.  The template directory (containing HTML files) and static directory (containing JS files) are common standards for HTML coding.  Static files can be pictures and videos, in this project they are mostly javascript backgrounds.
-- WSGI templates: index.html, kangaroos.html, ... are aligned with routes in main.py.
-- Other templates support WSGI templates.  The base.html template contains common Head, Style, Body, and Script definitions.  WSGI templates often "include" or "extend" these templates.  This is a way to reuse code.
-- The VANTA javascript statics (backgrounds) are shown and defaulted in base.html (birds) but are block-replaced as needed in other templates (solar, net, ...)
-- The Bootstrap Navbar code is in navbar.html. The base.html code includes navbar.html.  The WSGI html files extend base.html files.  This is a process of management and correlation to optimize code management.  For instance, if the menu changes discovery of navbar.html is easy, one change reflects on all WSGI html files.
-- Jinja2 variables usage is to isolate data and allow redefinitions of attributes in templates.  Observe "{% set variable = %}" syntax for definition and "{{ variable }}" for reference.
-- The base.html uses a combination of Bootstrap grid styling and custom CSS styling.  Grid styling in observation with the "<Col-3>" markers.  A Bootstrap Grid has a width of 12, thus four "Col-3" markers could fit on a Grid row.
-- A key purpose of this project is to embed links to other content.  The "href=" definition embeds hyperlinks into the rendered HTML.  The base.html file shows usage of "href={{github}}", the "{{github}}" is a Jinja2 variable.  Jinja2 variables are pre-processed by Python, a variable swap with value, before being sent to the browser.
+This project represents a collaborative effort among a skilled team of engineers and data scientists, dedicated to transforming public asset management through innovative technology. With continuous feedback loops and iterative improvements, SD IMOP is poised to deliver long-term value to the City of San Diego and serve as a blueprint for similar initiatives elsewhere.
