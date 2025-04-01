@@ -1,0 +1,43 @@
+field,description,possible_values
+id,Unique identifier,
+campus_name,Campus name. A campus is a combination of a building element and site elements.,
+building_name,Building name,
+building_number,Building number,
+location_description,Street address of the building,
+address_zip,Building ZIP code,
+community_area,Community where building is located,
+council_district,Council district number,
+lat,Latitude,
+lng,Longitude,
+year_forecast,,
+conditon,,
+fci,,
+capital_req,,
+maintenance_req,,
+total_req,,
+age,Building age,
+year_built,Year built,
+asset_type,Building use classification,City Occupied; City Office/Work Yard/Operations; Joint Use; Leased Commercial/Residential; Leased Facility; Leased No Service Level; Leased Office/Work/Yard/Operations; Leased Public; Leased Semi-Public; Public Facility; Semi-Public Facility
+asset_group,Building funding source,Enterprise - the Enterprise Fund in the City's operating budget; General Fund - the General Fund in the City's operating budget; Park & Rec Building/Structure; Park Only; PUD - Public Utilities Department
+service_level,Maximum desired FCI,Balboa Park - 15; City Concourse - 15; City Office/Work Yard/Operations - 20; City Staff use - 15; Commercial - 20; Community Service - 15; For Sale - 100; Museum - 15; Public Facility - 15; Residence - 20; Semi-Public Facility - 15; Sold - 100; Storage - 20; To Be Demolished - 100
+building_category,Category of the campus on which the building is located,"1 - Fire Stations, Police Stations, Life Guard Stations; 2 - Libraries, Community Service Centers; 3 - Sewer Pump Stations; 4 - Recreation Centers; 5 - Comfort Stations; 6 - TBD"
+department_name,Department that controls the building,
+building_function,Building function,"BARRACKS; BLOCK HOUSE; BUILDING, CHAPEL; CHILD CARE CTR; CLUBHOUSE; COMFORT STATION; COMMUNITY SERVICE CENTER; DOCK; FIELD OFFICE - ENGINEERING; FIRE STATION; FOUNTAIN; GARAGE; KIOSK; LIBRARY; LIFE GUARD SLEEPER TRAILER; LIFE GUARD STATION - PORTABLE; LIFE GUARD STATION - PERMANENT; MAINTENANCE SHOP; MECHANICAL; MUSEUM; OFFICE; Operations Services; OTHER; Parks/Recreation - Balboa Park; Parks/Recreation - Museum; PICNIC SHELTER; POLICE STATION; PUMPING STATION - SEWER; PUMPING STATION - WATER; RANGER STATION; RECREATION CENTER; RESIDENCE; RESTAURANT; SCHOOL; SENIOR CENTER; SHED; SHOP; SUFFLEBOARD SHELTER; SITE; SPORT FACILITY; STORAGE; SWIMMING POOL; THEATER; TRAILER; TRANSFORMER; TRANSIT STATION; TRELLIS STRUCTURE; VEHICLE MAINTENANCE"
+gross_sq_feet,Gross square feet of building,
+year_fy_inspection,Last inspected fiscal year,
+year_last_renovation,Last renovated fiscal year,
+solar_survey,Whether a solar assessment was performed,"0 - no, 1 - yes"
+solar_energy_feasible,Whether solar energy would be beneficial,"0 - no, 1 - yes"
+accessibility_survey,Whether an accessibility survey was conducted,"0 - no, 1 - yes"
+desc_full,Full text description of building that includes subsections,
+desc_site,Text description about the building site,
+desc_substructure,Text description of the building substructure,
+desc_shell,Text description of the building shell,
+desc_interior_construction,Text description of the building's interior construction,
+desc_interior_finishes,Text description of the building's interior finishes,
+desc_plumbing,Text description of the building's plumbing,
+desc_mechanical,,
+desc_life_safety,,
+desc_electrical,,
+desc_accessibility,Explanation of any accessibility survey conducted,
+desc_solar_energy,Explanation of any solar energy assessment conducted,
