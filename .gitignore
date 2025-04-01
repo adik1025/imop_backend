@@ -16,6 +16,7 @@ venv.bak/
 venv_backend/*
 venv_backend/
 backup/
+venv/bin
 
 # instance data, databases
 instance/volumes/
