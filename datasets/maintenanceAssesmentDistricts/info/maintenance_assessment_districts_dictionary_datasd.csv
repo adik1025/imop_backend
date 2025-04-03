@@ -1,0 +1,4 @@
+field,field_type,description,possible_values
+objectid,Integar,,
+name,String,,
+management,String,,
