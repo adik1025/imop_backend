@@ -21,6 +21,8 @@ from api.post import post_api
 from api.channel import channel_api
 from api.group import group_api
 from api.section import section_api
+from api.titanic import titanic_api  
+
 
 # database Initialization functions
 from model.user import User, initUsers
@@ -28,6 +30,8 @@ from model.section import Section, initSections
 from model.group import Group, initGroups
 from model.channel import Channel, initChannels
 from model.post import Post, initPosts
+from model.titanic import TitanicModel, initTitanic
+
 # server only Views
 
 # register URIs for api endpoints
@@ -37,6 +41,8 @@ app.register_blueprint(post_api)
 app.register_blueprint(channel_api)
 app.register_blueprint(group_api)
 app.register_blueprint(section_api)
+app.register_blueprint(titanic_api)  
+
 # Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
 
 # Tell Flask-Login the view function name of your login route
@@ -143,6 +149,8 @@ def generate_data():
     initGroups()
     initChannels()
     initPosts()
+    initTitanic()
+
     
 # Backup the old database
 def backup_database(db_uri, backup_uri):
