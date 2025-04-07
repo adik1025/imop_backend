@@ -13,7 +13,8 @@ import seaborn as sns
 
 
 class TitanicModel:
-    """A class used to represent the Titanic Model for passenger survival prediction.
+    """
+    A class used to represent the Titanic Model for passenger survival prediction.
     """
     # a singleton instance of TitanicModel, created to train the model only once, while using it for prediction multiple times
     _instance = None

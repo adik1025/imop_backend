@@ -23,6 +23,10 @@ instance/volumes/
 instance/data.json
 instance/data.json.*.bak
 
+# Extension related json files
 datasets/*/*.json
 datasets/*/info/*.json
 datasets/*/Shaperfile/*.json
+
+# cspell unneeded wordlist
+.vscode/settings.json

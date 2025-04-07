@@ -21,7 +21,8 @@ from api.post import post_api
 from api.channel import channel_api
 from api.group import group_api
 from api.section import section_api
-from api.titanic import titanic_api  
+from api.titanic import titanic_api
+from api.districts import districts_api
 
 
 # database Initialization functions
@@ -41,9 +42,8 @@ app.register_blueprint(post_api)
 app.register_blueprint(channel_api)
 app.register_blueprint(group_api)
 app.register_blueprint(section_api)
-app.register_blueprint(titanic_api)  
-
-# Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
+app.register_blueprint(titanic_api)
+app.register_blueprint(districts_api)
 
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
