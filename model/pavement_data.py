@@ -69,8 +69,8 @@ class Pavement(db.Model):
     def restore(data):
         for pavement_item in data:
             _ = pavement_item.pop('id', None)  # Remove 'id' from post_data
-            pavement_name = pavement_item.get("hotel", None)
-            pavement = Pavement.query.filter_by(hotel=pavement_name).first()
+            pavement_name = pavement_item.get("seg_id", None)
+            pavement = Pavement.query.filter_by(seg_id=pavement_name).first()
             if pavement:
                 pavement.update(pavement_item)
             else:
@@ -78,7 +78,7 @@ class Pavement(db.Model):
                 pavement.update(pavement_item)
                 pavement.create()
 
-def initHotel():
+def initPavement():
 
     with app.app_context():
 

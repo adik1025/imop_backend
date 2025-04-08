@@ -51,7 +51,7 @@ class PavementAPI:
                 return jsonify(pavement.read())
 
             all_pavements = Pavement.query.all()
-            return jsonify([hotel.read() for hotel in all_pavements])
+            return jsonify([x.read() for x in all_pavements])
 
 
         def put(self):

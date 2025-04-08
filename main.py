@@ -23,6 +23,7 @@ from api.group import group_api
 from api.section import section_api
 from api.titanic import titanic_api
 from api.districts import districts_api
+from api.pavement_data import pavement_api
 
 
 # database Initialization functions
@@ -32,6 +33,7 @@ from model.group import Group, initGroups
 from model.channel import Channel, initChannels
 from model.post import Post, initPosts
 from model.titanic import TitanicModel, initTitanic
+from model.pavement_data import Pavement, initPavement
 
 # server only Views
 
@@ -44,6 +46,7 @@ app.register_blueprint(group_api)
 app.register_blueprint(section_api)
 app.register_blueprint(titanic_api)
 app.register_blueprint(districts_api)
+app.register_blueprint(pavement_api)
 
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
@@ -147,9 +150,10 @@ def generate_data():
     initUsers()
     initSections()
     initGroups()
-    initChannels()
+    # initChannels()
     initPosts()
     initTitanic()
+    initPavement()
 
     
 # Backup the old database
@@ -172,6 +176,7 @@ def extract_data():
         data['groups'] = [group.read() for group in Group.query.all()]
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
+        data['pavement_data'] = [pavement.read() for pavement in Pavement.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -186,7 +191,7 @@ def save_data_to_json(data, directory='backup'):
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
-    for table in ['users', 'sections', 'groups', 'channels', 'posts']:
+    for table in ['users', 'sections', 'groups', 'channels', 'posts', 'pavement_data']:
         with open(os.path.join(directory, f'{table}.json'), 'r') as f:
             data[table] = json.load(f)
     return data
@@ -199,6 +204,7 @@ def restore_data(data):
         _ = Group.restore(data['groups'], users)
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
+        _ = Pavement.restore(data['pavement_data'])
     print("Data restored to the new database.")
 
 # Define a command to backup data
