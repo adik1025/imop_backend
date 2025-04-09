@@ -76,8 +76,8 @@ def initPavement():
 
         db.create_all()
 
-        test_data = [ # This is official 2023 data from https://data.sandiego.gov/datasets/streets-overall-condition-index/
-            Pavement(cell='a,b,c,d,,e,f,g,h,,i,j,k,l,,m,n,o,p,,q,r,s,t,,u,v,w,x,,y,z'),
+        test_data = [
+            # Pavement(cell='a,b,c,d,,e,f,g,h,,i,j,k,l,,m,n,o,p,,q,r,s,t,,u,v,w,x,,y,z'),
         ]
         
         for entry in test_data:
