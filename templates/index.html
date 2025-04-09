@@ -2,44 +2,58 @@
 {% set project = "Home" %}
 
 {% block body %}
-    <!-- Start of body content specific to page -->
-    <div class="px-5 py-5 mx-auto">
-        <h1 style="color: #1b7e17;"><strong>SD IMOP Admin Dashboard</strong></h1>
-        <div class="row justify-content-center">
-            <div class="col-5">
-                <div class="card" style="background-color: #1b7e17;">
-                    <img class="card-img-top" src="{{ url_for('static', filename='assets/SDIMOPLOGO.png') }}" alt="SD IMOP Image" style="width: 60%; height: 500px; margin: auto;">
-                    <div class="card-body">
-                    <h5 class="card-title">What is SD IMOP?</h5>
-                    <p class="card-text">
-                        <ol>
-                            <li>SD IMOP: San Diego Infrastructure Management Optimization Platform.</li>
-                            <li>SD IMOP is a data-driven platform designed to optimize infrastructure maintenance across San Diego.</li>
-                            <li>By harnessing historical repair records, citizen-reported issues, and facility condition assessments, SD IMOP leverages machine learning to predict when and where maintenance is needed.</li>
-                            <li>The goal is to enable proactive repair scheduling, reduce overall costs, and enhance public safety.</li>
-                        </ol>
-                    </p>
-                    <a href="https://rayhaansheeraj.github.io/SDIMOPFrontend/SDIMOP/dashboard" class="btn btn-primary">The SD IMOP Platform</a>
-                    </div>
+<!-- Page Content -->
+<div class="container py-5">
+    <h1 class="text-success fw-bold text-center mb-5">SD IMOP Admin Dashboard</h1>
+
+    <div class="row justify-content-center g-4">
+        <!-- SD IMOP Card -->
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow border-0 h-100">
+                <div class="bg-white text-center py-4">
+                    <img src="{{ url_for('static', filename='assets/SDIMOPLOGO.png') }}" 
+                         alt="SD IMOP Image"
+                         class="img-fluid"
+                         style="max-height: 250px;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-success fw-bold">What is SD IMOP?</h5>
+                    <ol class="card-text text-muted small">
+                        <li>San Diego Infrastructure Management Optimization Platform.</li>
+                        <li>Optimizes infrastructure maintenance across San Diego using data.</li>
+                        <li>Leverages machine learning to predict when and where maintenance is needed.</li>
+                        <li>Aims to reduce costs, enhance safety, and schedule proactively.</li>
+                    </ol>
+                    <a href="https://rayhaansheeraj.github.io/SDIMOPFrontend/SDIMOP/dashboard" class="btn btn-outline-success mt-3 w-100">
+                        Go to Platform
+                    </a>
                 </div>
             </div>
-            <div class="col-5">
-                <div class="card" style="background-color: #1b7e17;">
-                    <img class="card-img-top" src="{{ url_for('static', filename='assets/csp1.jpg') }}" alt="User Management" style="width: 60%; height: 500px; margin: auto;">
-                    <div class="card-body">
-                    <h5 class="card-title">User Management</h5>
-                    <p class="card-text">
-                        <ol>
-                            <li>Manage user accounts and permissions.</li>
-                            <li>View user activity and logs.</li>
-                            <li>Reset passwords and update user information.</li>
-                            <li>Ensure user data security and privacy.</li>
-                        </ol>
-                    </p>
-                    <a href="/users/table" class="btn btn-primary">Manage Users</a>
-                    </div>
+        </div>
+
+        <!-- User Management Card -->
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow border-0 h-100">
+                <div class="bg-white text-center py-4">
+                    <img src="{{ url_for('static', filename='assets/csp1.jpg') }}" 
+                         alt="User Management"
+                         class="img-fluid"
+                         style="max-height: 250px;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title text-success fw-bold">User Management</h5>
+                    <ol class="card-text text-muted small">
+                        <li>Manage user accounts and permissions.</li>
+                        <li>View activity logs.</li>
+                        <li>Reset passwords and update profiles.</li>
+                        <li>Ensure security and privacy compliance.</li>
+                    </ol>
+                    <a href="/users/table" class="btn btn-outline-success mt-3 w-100">
+                        Manage Users
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
