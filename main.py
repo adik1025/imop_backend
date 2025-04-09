@@ -24,6 +24,7 @@ from api.section import section_api
 from api.titanic import titanic_api
 from api.districts import districts_api
 from api.pavement_data import pavement_api
+from api.roads import road_api
 
 
 # database Initialization functions
@@ -47,6 +48,7 @@ app.register_blueprint(section_api)
 app.register_blueprint(titanic_api)
 app.register_blueprint(districts_api)
 app.register_blueprint(pavement_api)
+app.register_blueprint(road_api)
 
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
