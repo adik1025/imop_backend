@@ -22,13 +22,11 @@ class PavementAPI:
             current_user = g.current_user
             data = request.get_json()
 
-            if not data or 'seg_id' not in data or 'pci' not in data or 'pci_desc' not in data:
-                return {'message': 'Segment ID, PCI, and PCI description are required'}, 400
+            # if not data or 'seg_id' not in data or 'pci' not in data or 'pci_desc' not in data:
+            #     return {'message': 'Segment ID, PCI, and PCI description are required'}, 400
 
             pavement = Pavement(
-                seg_id=data.get('seg_id'),
-                pci=data.get('pci'),
-                pci_desc=data.get('pci_desc'),
+                cell=data.get('csv'),
             )
 
             try:
