@@ -25,6 +25,8 @@ from api.titanic import titanic_api
 from api.districts import districts_api
 from api.pavement_data import pavement_api
 from api.roads import road_api
+from api.event import event_api
+
 
 
 # database Initialization functions
@@ -35,6 +37,7 @@ from model.channel import Channel, initChannels
 from model.post import Post, initPosts
 from model.titanic import TitanicModel, initTitanic
 from model.pavement_data import Pavement, initPavement
+from model.event import Event, initEvents
 
 # server only Views
 
@@ -49,6 +52,7 @@ app.register_blueprint(titanic_api)
 app.register_blueprint(districts_api)
 app.register_blueprint(pavement_api)
 app.register_blueprint(road_api)
+app.register_blueprint(event_api)
 
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
@@ -156,6 +160,7 @@ def generate_data():
     initPosts()
     initTitanic()
     initPavement()
+    initEvents()
 
     
 # Backup the old database
@@ -179,6 +184,7 @@ def extract_data():
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
         data['pavement_data'] = [pavement.read() for pavement in Pavement.query.all()]
+        data['events'] = [event.read() for event in Event.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -207,6 +213,7 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Pavement.restore(data['pavement_data'])
+        _ = Event.restore(data['events'])
     print("Data restored to the new database.")
 
 # Define a command to backup data
