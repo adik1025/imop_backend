@@ -7,7 +7,7 @@ from __init__ import app, db
 
 class Coords(db.Model):
 
-    __tablename__ = 'pavement_data'
+    __tablename__ = 'coords'
 
     id = db.Column(db.Integer, primary_key=True)
     building_name  = db.Column(db.String(3), nullable=False)
