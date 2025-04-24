@@ -1,89 +1,83 @@
-# post.py
-import logging
-from sqlite3 import IntegrityError
-from sqlalchemy.exc import IntegrityError
-from __init__ import app, db
+from flask import Blueprint, request, jsonify, g
+from flask_restful import Api, Resource
+from flask_cors import CORS
+from __init__ import db
+from model.coords import Coords
+from model.user import User
+from api.jwt_authorize import token_required
+from flask_cors import cross_origin  # Importing cross_origin
 
+coords_api = Blueprint('coords_api', __name__, url_prefix='/api')
+CORS(coords_api, supports_credentials=True)
+api = Api(coords_api)
 
-class Pavement(db.Model):
+class CoordsAPI:
 
-    __tablename__ = 'pavement_data'
+    class _CRUD(Resource):
 
-    id = db.Column(db.Integer, primary_key=True)
-    cell  = db.Column(db.String(3), nullable=False)
+        @token_required()
+        @cross_origin(supports_credentials=True)
+        def post(self):
+            current_user = g.current_user
+            data = request.get_json()
 
-    def __init__(self, cell):
+            coords = Coords(
+                building_name=data.get('building_name'),
+                lat=data.get('lat'),
+                lng=data.get('lng'),
+                condition=data.get('condition')
+            )
 
-        self.cell = cell
-
-    def __repr__(self):
-
-        return f"Pavement(id={self.id}, cell={self.cell})"
-
-    def create(self):
-
-        try:
-            db.session.add(self)
-            db.session.commit()
-        except IntegrityError as e:
-            db.session.rollback()
-            logging.warning(f"IntegrityError: Could not save '{self.cell}' due to {str(e)}.")
-            return None
-        return self
-        
-    def read(self):
-
-        return {
-            "id": self.id,
-            "cell": self.cell,
-        }
-    
-    def delete(self):
-
-        try:
-            db.session.delete(self)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
-        
-    def update(self, data):
-
-        self.cell = data.get('cell', self.cell)
-        try:
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise e
-
-
-    @staticmethod
-    def restore(data):
-        for pavement_item in data:
-            _ = pavement_item.pop('id', None)  # Remove 'id' from post_data
-            pavement_name = pavement_item.get("cell", None)
-            pavement = Pavement.query.filter_by(cell=pavement_name).first()
-            if pavement:
-                pavement.update(pavement_item)
-            else:
-                pavement = Pavement(**pavement_item)
-                pavement.update(pavement_item)
-                pavement.create()
-
-def initPavement():
-
-    with app.app_context():
-
-        db.create_all()
-
-        test_data = [
-            # Pavement(cell='a,b,c,d,,e,f,g,h,,i,j,k,l,,m,n,o,p,,q,r,s,t,,u,v,w,x,,y,z'),
-        ]
-        
-        for entry in test_data:
             try:
-                entry.create()
-                print(f"Record created: {repr(entry)}")
-            except IntegrityError:
-                db.session.remove()
-                print(f"Record already exists: {entry.cell}")
+                coords.create()
+                return jsonify(coords.read())
+            except Exception as e:
+                return {'message': f'Error saving coordinates: {e}'}, 500
+
+        @token_required()
+        @cross_origin(supports_credentials=True)
+        def get(self):
+            coords_id = request.args.get('id')
+
+            if coords_id:
+                coord = Coords.query.get(coords_id)
+                if not coord:
+                    return {'message': 'Coordinates not found'}, 404
+                return jsonify(coord.read())
+
+            all_coords = Coords.query.all()
+            return jsonify([x.read() for x in all_coords])
+
+        def put(self):
+            data = request.get_json()
+
+            if not data or 'id' not in data:
+                return {'message': 'ID is required for updating coordinates'}, 400
+
+            coord = Coords.query.get(data['id'])
+            if not coord:
+                return {'message': 'Coordinates not found'}, 404
+
+            try:
+                coord.update(data)
+                return jsonify(coord.read())
+            except Exception as e:
+                return {'message': f'Error updating coordinates: {e}'}, 500
+
+        def delete(self):
+            data = request.get_json()
+
+            if not data or 'id' not in data:
+                return {'message': 'ID is required for deleting coordinates'}, 400
+
+            coord = Coords.query.get(data['id'])
+            if not coord:
+                return {'message': 'Coordinates not found'}, 404
+
+            try:
+                coord.delete()
+                return {'message': 'Coordinates deleted successfully'}, 200
+            except Exception as e:
+                return {'message': f'Error deleting coordinates: {e}'}, 500
+
+    api.add_resource(_CRUD, '/coords')
