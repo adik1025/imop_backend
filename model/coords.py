@@ -1,0 +1,95 @@
+# post.py
+import logging
+from sqlite3 import IntegrityError
+from sqlalchemy.exc import IntegrityError
+from __init__ import app, db
+
+
+class Coords(db.Model):
+
+    __tablename__ = 'pavement_data'
+
+    id = db.Column(db.Integer, primary_key=True)
+    building_name  = db.Column(db.String(3), nullable=False)
+    lat  = db.Column(db.String(3), nullable=False)
+    lng  = db.Column(db.String(3), nullable=False)
+    condition  = db.Column(db.String(3), nullable=False)
+
+    def __init__(self, cell):
+
+        self.cell = cell
+
+    def __repr__(self):
+
+        return f"Coords(id={self.id}, building_name={self.building_name}, lat={self.lat}, lng={self.lng}, condition={self.condition})"
+
+    def create(self):
+
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except IntegrityError as e:
+            db.session.rollback()
+            logging.warning(f"IntegrityError: Could not save '{self.building_name}' due to {str(e)}.")
+            return None
+        return self
+        
+    def read(self):
+
+        return {
+            "id": self.id,
+            "building_name": self.building_name,
+            "lat": self.lat,
+            "lng": self.lng,
+            "condition": self.condition
+        }
+    
+    def delete(self):
+
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+        
+    def update(self, data):
+
+        self.building_name = data.get('building_name', self.building_name)
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise e
+
+
+    @staticmethod
+    def restore(data):
+        for coords_item in data:
+            _ = coords_item.pop('id', None)  # Remove 'id' from post_data
+            coords_name = coords_item.get("cell", None)
+            coord = Coords.query.filter_by(cell=coords_name).first()
+            if coord:
+                coord.update(coords_item)
+            else:
+                coord = Coords(**coords_item)
+                coord.update(coords_item)
+                coord.create()
+
+def initCoords():
+
+    with app.app_context():
+
+        db.create_all()
+
+        test_data = [
+            # Pavement(cell='a,b,c,d,,e,f,g,h,,i,j,k,l,,m,n,o,p,,q,r,s,t,,u,v,w,x,,y,z'),
+        ]
+        
+        for entry in test_data:
+            try:
+                entry.create()
+                print(f"Record created: {repr(entry)}")
+            except IntegrityError:
+                db.session.remove()
+                print(f"Record already exists: {entry.building_name}")
