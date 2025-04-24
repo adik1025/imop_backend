@@ -2,7 +2,10 @@
 import logging
 from sqlite3 import IntegrityError
 from sqlalchemy.exc import IntegrityError
+import csv
+import os
 from __init__ import app, db
+
 
 
 class Coords(db.Model):
@@ -79,21 +82,34 @@ class Coords(db.Model):
                 coord.create()
 
 def initCoords():
-
     with app.app_context():
-
         db.create_all()
-
-        test_data = [
-            Coords(building_name='Big House', lat='32.717339', lng='-117.163683', condition='Fair'),
-            Coords(building_name='Medium House', lat='32.718339', lng='-117.163683', condition='Poor'),
-            Coords(building_name='Small House', lat='32.719339', lng='-117.163683', condition='Good'),
-        ]
         
-        for entry in test_data:
-            try:
-                entry.create()
-                print(f"Record created: {repr(entry)}")
-            except IntegrityError:
-                db.session.remove()
-                print(f"Record already exists: {entry.building_name}")
+        file_path = "datasets/facilityConditionIndexRatings/facilities_assessment_datasd.csv"
+        
+        try:
+            with open(file_path, newline='', encoding='utf-8') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    building_name = row['building_name']
+                    lat = row['lat']
+                    lng = row['lng']
+                    condition = row['condition']
+
+                    if not (building_name and lat and lng and condition):
+                        continue
+                    
+                    coord = Coords(
+                        building_name=building_name.strip(),
+                        lat=lat.strip(),
+                        lng=lng.strip(),
+                        condition=condition.strip()
+                    )
+                    try:
+                        coord.create()
+                        print(f"Record created: {repr(coord)}")
+                    except IntegrityError:
+                        db.session.remove()
+                        print(f"Record already exists or error creating: {building_name}")
+        except FileNotFoundError:
+            print(f"CSV file not found at path: {file_path}")
