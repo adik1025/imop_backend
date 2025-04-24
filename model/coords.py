@@ -15,10 +15,12 @@ class Coords(db.Model):
     lng  = db.Column(db.String(3), nullable=False)
     condition  = db.Column(db.String(3), nullable=False)
 
-    def __init__(self, cell):
-
-        self.cell = cell
-
+    def __init__(self, building_name, lat, lng, condition):
+        self.building_name = building_name
+        self.lat = lat
+        self.lng = lng
+        self.condition = condition
+        
     def __repr__(self):
 
         return f"Coords(id={self.id}, building_name={self.building_name}, lat={self.lat}, lng={self.lng}, condition={self.condition})"
@@ -83,7 +85,9 @@ def initCoords():
         db.create_all()
 
         test_data = [
-            # Pavement(cell='a,b,c,d,,e,f,g,h,,i,j,k,l,,m,n,o,p,,q,r,s,t,,u,v,w,x,,y,z'),
+            Coords(building_name='Big House', lat='32.717339', lng='-117.163683', condition='Fair'),
+            Coords(building_name='Medium House', lat='32.718339', lng='-117.163683', condition='Poor'),
+            Coords(building_name='Small House', lat='32.719339', lng='-117.163683', condition='Good'),
         ]
         
         for entry in test_data:
