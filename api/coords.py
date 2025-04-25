@@ -15,8 +15,7 @@ class CoordsAPI:
 
     class _CRUD(Resource):
 
-        @token_required()
-        @cross_origin(supports_credentials=True)
+
         def post(self):
             current_user = g.current_user
             data = request.get_json()
@@ -34,8 +33,7 @@ class CoordsAPI:
             except Exception as e:
                 return {'message': f'Error saving coordinates: {e}'}, 500
 
-        @token_required()
-        @cross_origin(supports_credentials=True)
+
         def get(self):
             coords_id = request.args.get('id')
 
