@@ -1,0 +1,122 @@
+{
+  "fields": [
+    {
+      "name": "service_request_id",
+      "type": "integer",
+      "format": "default"
+    },
+    {
+      "name": "service_request_parent_id",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "sap_notification_number",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "date_requested",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "case_age_days",
+      "type": "year",
+      "format": "default"
+    },
+    {
+      "name": "case_record_type",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "service_name",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "service_name_detail",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "date_closed",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "lat",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "lng",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "street_address",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "zipcode",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "council_district",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "comm_plan_code",
+      "type": "number",
+      "format": "default"
+    },
+    {
+      "name": "comm_plan_name",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "park_name",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "case_origin",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "referred",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "iamfloc",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "floc",
+      "type": "string",
+      "format": "default"
+    },
+    {
+      "name": "public_description",
+      "type": "string",
+      "format": "default"
+    }
+  ],
+  "missingValues": [
+    ""
+  ]
+}
