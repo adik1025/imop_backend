@@ -86,7 +86,7 @@ def initCoords():
         db.create_all()
         
         file_path = "datasets/facilityConditionIndexRatings/facilities_assessment_datasd.csv"
-        
+        file_path = "datasets/graffiti_requests_open.csv"
         try:
             with open(file_path, newline='', encoding='utf-8') as csvfile:
                 reader = csv.DictReader(csvfile)
@@ -95,8 +95,10 @@ def initCoords():
                     lat = row['lat']
                     lng = row['lng']
                     condition = row['condition']
+                    condition = row['status']
 
-                    if not (building_name and lat and lng and condition):
+
+                    if not (building_name and lat and lng):
                         continue
                     
                     coord = Coords(
