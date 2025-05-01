@@ -14,26 +14,57 @@ api = Api(pavement_api)
 class PavementAPI:
 
     class _CRUD(Resource):
-        
         @token_required()
-        @cross_origin(supports_credentials=True)  # Add this decorator to handle CORS for PUT requests
+        @cross_origin(supports_credentials=True)
         def post(self):
-
             current_user = g.current_user
             data = request.get_json()
-
-            # if not data or 'seg_id' not in data or 'pci' not in data or 'pci_desc' not in data:
-            #     return {'message': 'Segment ID, PCI, and PCI description are required'}, 400
-
-            pavement = Pavement(
-                cell=data.get('csv'),
-            )
+            csv_string = data.get('csv', '')
 
             try:
-                pavement.create()
-                return jsonify(pavement.read())
+                lines = csv_string.strip().split('\n')
+                saved_rows = []
+
+                # Skip the header row if it's present
+                header = lines[0].lower()
+                has_header = all(h in header for h in ['building_name', 'lat', 'lng', 'condition'])
+                data_lines = lines[1:] if has_header else lines
+
+                for line in data_lines:
+                    # Split the CSV line by commas and clean up the whitespace around each value
+                    row = [cell.strip() for cell in line.split(',')]
+
+                    if not row or len(row) < 4 or not any(row):
+                        continue  # Skip rows that don't have enough data or are empty
+
+                    # Extract relevant columns only if they are present
+                    building_name = row[0] if len(row) > 0 else None
+                    lat = float(row[1]) if len(row) > 1 and row[1] else None
+                    lng = float(row[2]) if len(row) > 2 and row[2] else None
+                    condition = row[3] if len(row) > 3 else None
+
+                    # Only process rows with valid columns (i.e., no missing or invalid values)
+                    if building_name and lat is not None and lng is not None and condition:
+                        try:
+                            pavement = Pavement(
+                                building_name=building_name,
+                                lat=lat,
+                                lng=lng,
+                                condition=condition
+                            )
+                            pavement.create()
+                            saved_rows.append(pavement.read())
+                        except Exception as row_error:
+                            # Optionally log the error or continue silently
+                            continue
+
+                return jsonify(saved_rows)
             except Exception as e:
-                return {'message': f'Error saving pavement: {e}'}, 500
+                return {'message': f'Error saving pavements: {e}'}, 500
+
+
+        
+        
 
         @token_required()
         @cross_origin(supports_credentials=True)  # Add this decorator to handle CORS for PUT requests
